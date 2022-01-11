@@ -1,0 +1,43 @@
+import {createApp} from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import './index.css';
+import mdiVue from 'mdi-vue/v3';
+import * as mdijs from '@mdi/js';
+import CardContainer from './components/CardContainer.vue';
+import Card from './components/Card.vue';
+import TopicSelector from './components/TopicSelector.vue';
+import PracticeSelector from './components/PracticeSelector.vue';
+import MyCart from './components/MyCart.vue';
+import CustomForm from './components/CustomForm.vue';
+import FormCard from './components/FormCard.vue';
+import FormRegisterTable from './components/FormRegisterTable.vue';
+import ChButton from './components/componentsLibrary/ChButton.vue';
+import ChGlassCard from './components/componentsLibrary/ChGlassCard.vue';
+import ProductCard from './components/componentsLibrary/ProductCard.vue';
+import AddToCart from './components/componentsLibrary/AddToCart.vue';
+import CircularMenu from './components/componentsLibrary/CircularMenu.vue';
+import PrimaryBtn from './components/componentsLibrary/PrimaryBtn.vue';
+
+const VueApp = createApp(App);
+VueApp.use(store);
+VueApp.use(router);
+VueApp.use(mdiVue, {
+  icons: mdijs,
+});
+VueApp.component('CardContainer', CardContainer);
+VueApp.component('Card', Card);
+VueApp.component('MyCart', MyCart);
+VueApp.component('TopicSelector', TopicSelector);
+VueApp.component('PracticeSelector', PracticeSelector);
+VueApp.component('ChButton', ChButton);
+VueApp.component('ChGlassCard', ChGlassCard);
+VueApp.component('ProductCard', ProductCard);
+VueApp.component('AddToCart', AddToCart);
+VueApp.component('CircularMenu', CircularMenu);
+VueApp.component('CustomForm', CustomForm);
+VueApp.component('FormCard', FormCard);
+VueApp.component('FormRegisterTable', FormRegisterTable);
+VueApp.component('PrimaryBtn', PrimaryBtn);
+VueApp.mount('#app');
