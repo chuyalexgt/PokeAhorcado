@@ -19,6 +19,9 @@ export default {
 };
 </script>
 <style lang="scss">
+body{
+  background: #3f3f3f;
+}
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

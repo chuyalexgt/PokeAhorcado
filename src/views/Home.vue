@@ -1,23 +1,27 @@
+/* eslint-disable vue/no-multiple-template-root */
 <template>
-  <header class="fixed w-full z-50" id="header">
-    <div class="flex flex-row justify-center bg-transparent">
-      <div
-        class="flex flex-row justify-center align-center p-5
-        rounded-b-2xl w-full lg:w-1/2
-        bg-gradient-to-b from-blue-500 to-transparent shadow-2xl"
-      >
-        <img src="../assets/logo.png" alt="" class="w-10 h-10 mx-3" />
-        <p
-          class="py-2 tracking-wide font-extrabold text-xl font-mono text-black"
+  <section>
+    <header class="fixed w-full z-50" id="header">
+      <div class="flex flex-row justify-center bg-transparent">
+        <div
+          class="flex flex-row justify-center align-center p-5
+          rounded-b-2xl w-full lg:w-1/2
+          bg-gradient-to-b from-blue-500 to-transparent shadow-2xl"
         >
-          Vue 3 + Tailwind + Firebase Notes
-        </p>
+          <img src="../assets/logo.png" alt="" class="w-10 h-10 mx-3" />
+          <p
+            class="py-2 tracking-wide font-extrabold text-xl font-mono
+            text-black"
+          >
+            Vue 3 + Tailwind + Firebase Notes
+          </p>
+        </div>
       </div>
-    </div>
-  </header>
-  <CardContainer v-if="topic != ''" :topic="topic" @goBack="goBack()" />
-  <TopicSelector v-if="topic == ''" @topicSelected="topic = $event" />
-  <PracticeSelector />
+    </header>
+    <CardContainer v-if="topic != ''" :topic="topic" @goBack="goBack()" />
+    <TopicSelector v-if="topic == ''" @topicSelected="topic = $event" />
+    <PracticeSelector />
+  </section>
 </template>
 <script>
 export default {

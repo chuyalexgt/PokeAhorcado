@@ -23,6 +23,7 @@ import PrimaryBtn from './components/componentsLibrary/PrimaryBtn.vue';
 const VueApp = createApp(App);
 VueApp.use(store);
 VueApp.use(router);
+VueApp.config.ignoredElements = [/^ion-/];
 VueApp.use(mdiVue, {
   icons: mdijs,
 });

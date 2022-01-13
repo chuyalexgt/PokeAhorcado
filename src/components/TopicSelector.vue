@@ -2,7 +2,7 @@
   <div
     class="card-container flex flex-col justify-start align-center flex-wrap"
   >
-    <h1 class="p-10 text-3xl">Selecciona un tema</h1>
+    <h1 class="p-10 text-3xl text-white">Selecciona un tema</h1>
     <div class="flex w-full justify-center flex-wrap">
       <button
         class="topic-card"
@@ -40,7 +40,7 @@ export default {
 .card-container {
   position: relative;
   z-index: 5;
-  background: #ffdde0;
+  background: #3f3f3f;
   min-height: 100vh;
   padding: 70px 10px 35px 10px;
   @media screen and (min-height: 800px) {
