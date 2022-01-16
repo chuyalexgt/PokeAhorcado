@@ -73,6 +73,9 @@ export default createStore({
     },
     formRegister: [],
     action: 'create',
+    // STATE DE PRACTICA AUTENTICACION //////////////////////////
+    userToken: null,
+    userLocalId: null,
   },
   getters: {
     cartLength(state) {
@@ -162,6 +165,13 @@ export default createStore({
     },
     loadLocalData(state, payload) {
       state.formRegister = payload;
+    },
+    // MUTATIONS DE PRACTICA AUTENTICACION //////////////////////////
+    saveUserToken(state, payload) {
+      state.userToken = payload;
+    },
+    saveUserLocalId(state, payload) {
+      state.userLocalId = payload;
     },
   },
   actions: {
@@ -264,7 +274,12 @@ export default createStore({
         console.log(error);
       }
     },
-
+    // ACTIONS DE PRACTICA AUTENTICACION //////////////////////////
+    saveUserKeys({commit}, data) {
+      console.log(data);
+      commit('saveUserToken', data.token);
+      commit('saveUserLocalId', data.id);
+    },
   },
   modules: {
   },

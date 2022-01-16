@@ -9,8 +9,8 @@
       tracking-wide">
       Iniciar Sesión</h2>
       <div class="flex flex-col gap-1">
-       <label for="username">E-mail</label>
-       <input name="username" type="email" required v-model="userInfo.name">
+       <label for="email">E-mail</label>
+       <input name="email" type="email" required v-model="userInfo.email">
       </div>
       <div class="flex flex-col gap-1">
         <label for="password">Contraseña</label>
@@ -33,7 +33,7 @@
       </p>
     </form>
 
-    <form v-if="!loginSwitch" @submit.prevent="AddNewUser()"
+    <form v-if="!loginSwitch" @submit.prevent="addNewUser()"
     class="w-full md:w-2/3 lg:w-1/3 p-5 bg-slate-100 rounded-xl shadow-lg
     flex flex-col gap-5">
       <h2
@@ -41,8 +41,8 @@
       tracking-wide">
       Crear Cuenta</h2>
       <div class="flex flex-col gap-1">
-       <label for="username">Nombre De Usuario</label>
-       <input name="username" type="text" required v-model="userInfo.name">
+       <label for="email">E-mail</label>
+       <input name="email" type="email" required v-model="userInfo.email">
       </div>
       <div class="flex flex-col gap-1">
         <label for="password">Contraseña</label>
@@ -68,13 +68,15 @@
 </template>
 
 <script>
+// import router from '../router';
+import {mapActions} from 'vuex';
 export default {
   name: 'LoginForm',
   created() {},
   data() {
     return {
       userInfo: {
-        name: null,
+        email: null,
         password: null,
       },
       loginSwitch: true, // True -> login  false -> Sign in
@@ -87,6 +89,7 @@ export default {
   },
   props: {},
   methods: {
+    ...mapActions(['saveUserKeys']),
     changePassState() {
       const auxPassword = this.userInfo.password;
       if (this.passwordProps.state) {
@@ -103,17 +106,55 @@ export default {
     formSwitch() {
       this.loginSwitch = !this.loginSwitch;
     },
-    authUser() {
-      this.userInfo = {
-        name: null,
-        password: null,
-      };
+    async authUser() {
+      try {
+        const API_KEY = 'AIzaSyAseX6e4CoxwNoRfjCz0ug_uroQZhfLJag';
+        const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`, {
+          method: 'POST',
+          body: JSON.stringify({
+            ...this.userInfo,
+            returnSecureToken: true,
+          }),
+        });
+        const response = await res.json();
+        if (response.error) {
+          console.log(response.error);
+          return;
+        }
+        console.log(response); //
+        this.saveUserKeys({
+          token: response.idToken,
+          id: response.localId,
+        });
+        router.push('/Auth/dashboard');
+      } catch (error) {
+        console.error(error);
+      }
     },
-    addNewUser() {
-      this.userInfo = {
-        name: null,
-        password: null,
-      };
+    async addNewUser() {
+      try {
+        const API_KEY = 'AIzaSyAseX6e4CoxwNoRfjCz0ug_uroQZhfLJag';
+        const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, {
+          method: 'POST',
+          body: JSON.stringify({
+            ...this.userInfo,
+            returnSecureToken: true,
+          }),
+        });
+        const response = await res.json();
+        if (response.error) {
+          console.log(response.error);
+          return;
+        }
+        console.log(response); //
+        this.saveUserKeys({
+          token: response.idToken,
+          id: response.localId,
+        });
+        // router.push('/Auth/dashboard');
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
