@@ -51,7 +51,7 @@ export default {
     },
     start() {
       this.startPractice = !this.startPractice;
-      router.push('/Auth/Home');
+      router.push('/Auth/login');
     },
   },
 };

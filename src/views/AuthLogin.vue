@@ -1,18 +1,20 @@
 <template>
-  <section class="w-full flex justify-center items-center">
-  </section>
+  <LoginForm/>
 </template>
 
 <script>
 export default {
-  name: 'AuthHome',
+  name: 'AuthLogin',
   created() {},
   data() {
-    return {};
+    return {
+
+    };
   },
   props: {},
-  methods: {},
+  methods: {
 
+  },
 };
 </script>
 

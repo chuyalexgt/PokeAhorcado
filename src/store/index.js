@@ -204,14 +204,14 @@ export default createStore({
         context.state.formRegister.push(registro);
         // localStorage.setItem('tareas', JSON.stringify(state.formRegister));
         try {
-          await fetch(`https://vue3-guide-default-rtdb.firebaseio.com
-          /registros/${registro.id}.json`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(registro),
-          });
+          await fetch(`https://vue3-guide-default-rtdb.firebaseio.com/registros/${registro.id}.json`,
+              {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(registro),
+              });
         } catch (error) {
           console.log(error);
         }
@@ -256,8 +256,7 @@ export default createStore({
       //   // localStorage.setItem('tareas', JSON.stringify([]));
       // }
       try {
-        const res = await fetch(`https://vue3-guide-default-rtdb.firebaseio
-        .com/registros.json`); // GET
+        const res = await fetch(`https://vue3-guide-default-rtdb.firebaseio.com/registros.json`); // GET
         const registros = Object.values(await res.json());
         console.log(registros);
         commit('loadLocalData', registros);

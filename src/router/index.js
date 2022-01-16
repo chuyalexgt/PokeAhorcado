@@ -39,6 +39,10 @@ const routes = [
     component: () => import('../views/AuthView.vue'),
     children: [
       {
+        path: 'login',
+        component: () => import('../views/AuthLogin.vue'),
+      },
+      {
         path: 'home',
         component: () => import('../views/AuthHome.vue'),
       },
