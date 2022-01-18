@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 <template>
   <section class="w-full flex justify-center items-center">
 
@@ -89,7 +90,7 @@ export default {
   },
   props: {},
   methods: {
-    ...mapActions(['saveUserKeys']),
+    ...mapActions(['saveUserKeys', 'changeRequestState']),
     changePassState() {
       const auxPassword = this.userInfo.password;
       if (this.passwordProps.state) {
@@ -108,6 +109,7 @@ export default {
     },
     async authUser() {
       try {
+        this.changeRequestState('loading');
         const API_KEY = 'AIzaSyAseX6e4CoxwNoRfjCz0ug_uroQZhfLJag';
         const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`, {
           method: 'POST',
@@ -119,20 +121,31 @@ export default {
         const response = await res.json();
         if (response.error) {
           console.log(response.error);
+          this.changeRequestState({
+            state: 'error',
+            message: response.error.message,
+          });
           return;
         }
-        console.log(response); //
+        this.changeRequestState({
+          state: 'success',
+          message: 'USER_AUTH',
+        });
         this.saveUserKeys({
           token: response.idToken,
           id: response.localId,
         });
-        router.push('/Auth/dashboard');
+        // router.push('/Auth/dashboard');
       } catch (error) {
-        console.error(error);
+        this.changeRequestState({
+          state: 'error',
+          message: 'unknown_error',
+        });
       }
     },
     async addNewUser() {
       try {
+        this.changeRequestState('loading');
         const API_KEY = 'AIzaSyAseX6e4CoxwNoRfjCz0ug_uroQZhfLJag';
         const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, {
           method: 'POST',
@@ -144,16 +157,26 @@ export default {
         const response = await res.json();
         if (response.error) {
           console.log(response.error);
+          this.changeRequestState({
+            state: 'error',
+            message: response.error.message,
+          });
           return;
         }
-        console.log(response); //
+        this.changeRequestState({
+          state: 'success',
+          message: 'NEW_USER',
+        });
         this.saveUserKeys({
           token: response.idToken,
           id: response.localId,
         });
         // router.push('/Auth/dashboard');
       } catch (error) {
-        console.error(error);
+        this.changeRequestState({
+          state: 'error',
+          message: 'unknown_error',
+        });
       }
     },
   },

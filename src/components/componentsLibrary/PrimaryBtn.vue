@@ -1,6 +1,6 @@
 <template>
     <button
-    class="w-fit px-8 py-4 text-xl bg-blue-400 rounded-lg
+    class="w-fit px-4 py-2 text-sm bg-blue-400 rounded-lg
     font-extrabold tracking-widest transition-all hover:bg-blue-500
     hover:ring-4 shadow-lg shadow-blue-200/20 hover:shadow-none text-white"
   >

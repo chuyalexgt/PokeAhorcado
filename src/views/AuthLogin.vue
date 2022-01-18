@@ -1,5 +1,8 @@
 <template>
+<section class="w-full h-auto">
   <LoginForm/>
+  <requestStateModal/>
+</section>
 </template>
 
 <script>

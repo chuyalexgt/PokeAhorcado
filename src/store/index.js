@@ -76,6 +76,7 @@ export default createStore({
     // STATE DE PRACTICA AUTENTICACION //////////////////////////
     userToken: null,
     userLocalId: null,
+    requestState: null,
   },
   getters: {
     cartLength(state) {
@@ -172,6 +173,9 @@ export default createStore({
     },
     saveUserLocalId(state, payload) {
       state.userLocalId = payload;
+    },
+    changeRequestState(state, payload) {
+      state.requestState = payload;
     },
   },
   actions: {
@@ -276,9 +280,11 @@ export default createStore({
     },
     // ACTIONS DE PRACTICA AUTENTICACION //////////////////////////
     saveUserKeys({commit}, data) {
-      console.log(data);
       commit('saveUserToken', data.token);
       commit('saveUserLocalId', data.id);
+    },
+    changeRequestState({commit}, data) {
+      commit('changeRequestState', data);
     },
   },
   modules: {

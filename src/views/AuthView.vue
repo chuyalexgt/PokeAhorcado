@@ -22,7 +22,7 @@
       @click="start()"/>
     </section>
     <section class="w-full min-h-[100vh] flex justify-center items-center
-    practice-section"
+    practice-section relative"
     v-if="!startPractice">
       <router-view/>
     </section>
