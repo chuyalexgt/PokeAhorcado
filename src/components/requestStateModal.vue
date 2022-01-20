@@ -2,7 +2,7 @@
   <section class="w-full bg-gray-400/50 z-50 absolute top-0 left-0
   before:blur-lg h-full flex justify-center items-center rounded-[40px]"
   v-if="modalSwitch">
-    <div class="bg-zinc-100 w-5/6 md:w-1/4 min-h-[30%] rounded-xl p-4
+    <div class="bg-zinc-100 w-5/6 md:w-1/3 min-h-[30%] rounded-xl p-4
     border-t-8 flex justify-center items-center" :class="borderColor">
 
       <div v-if="requestState === 'loading'" class="flex flex-col
@@ -15,7 +15,7 @@
       justify-center items-center">
         <mdicon name="check" class="text-2xl"></mdicon>
         <p class="text-center p-3 font-semibold">{{successManager}}</p>
-        <primaryBtn @click="changeRequestState(null)"/>
+        <primaryBtn @click="changeRequestState(null)" v-if="requestState?.message !== 'USER_AUTH'"/>
       </div>
 
       <div v-if="requestState?.state === 'error'" class="flex flex-col

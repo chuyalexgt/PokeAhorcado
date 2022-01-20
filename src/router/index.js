@@ -43,8 +43,8 @@ const routes = [
         component: () => import('../views/AuthLogin.vue'),
       },
       {
-        path: 'home',
-        component: () => import('../views/AuthHome.vue'),
+        path: 'dashboard',
+        component: () => import('../views/AuthDashboard.vue'),
       },
     ],
   },

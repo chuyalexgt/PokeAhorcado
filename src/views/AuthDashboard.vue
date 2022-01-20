@@ -1,11 +1,12 @@
 <template>
-  <section class="w-full flex justify-center items-center">
+  <section class="w-full flex justify-around items-center gap-2">
+    <ToDoList/>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'AuthHome',
+  name: 'AuthDashboard',
   created() {},
   data() {
     return {};

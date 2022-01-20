@@ -77,6 +77,44 @@ export default createStore({
     userToken: null,
     userLocalId: null,
     requestState: null,
+    toDoList: [
+      {
+        text: 'Este es un ejemplo 1',
+        isImportant: false,
+        isComplete: true,
+        id: nanoid(),
+      },
+      {
+        text: 'Este es un ejemplo 2',
+        isImportant: false,
+        isComplete: false,
+        id: nanoid(),
+      },
+      {
+        text: 'Este es un ejemplo importante',
+        isImportant: true,
+        isComplete: false,
+        id: nanoid(),
+      },
+      {
+        text: 'Este tambien importa',
+        isImportant: true,
+        isComplete: true,
+        id: nanoid(),
+      },
+      {
+        text: 'Este es un ejemplo 3',
+        isImportant: false,
+        isComplete: false,
+        id: nanoid(),
+      },
+      {
+        text: 'y este...',
+        isImportant: true,
+        isComplete: false,
+        id: nanoid(),
+      },
+    ],
   },
   getters: {
     cartLength(state) {
@@ -95,6 +133,21 @@ export default createStore({
       });
       console.log(object);
       return object;
+    },
+    // GETTERS DE PRACTICA AUTENTICACION //////////////////////////
+    organizedToDoList(state) {
+      const importantList = [];
+      const regularList = [];
+      const completeTasks = [];
+      const completeImportantTasks = [];
+      state.toDoList.forEach((el)=>{
+        // el.isImportant ? importantList.push(el) : regularList.push(el);
+        (el.isImportant & !el.isComplete) && importantList.push(el);
+        (!el.isImportant & !el.isComplete) && regularList.push(el);
+        (el.isImportant & el.isComplete) && completeImportantTasks.push(el);
+        (!el.isImportant & el.isComplete) && completeTasks.push(el);
+      });
+      return importantList.concat(regularList.concat(completeImportantTasks.concat(completeTasks)));
     },
   },
   mutations: {
@@ -176,6 +229,13 @@ export default createStore({
     },
     changeRequestState(state, payload) {
       state.requestState = payload;
+    },
+    taskStateSwitch(state, id) {
+      let target;
+      state.toDoList.forEach((el, index)=>{
+        (el.id === id) && (target = index);
+      });
+      state.toDoList[target].isComplete = !state.toDoList[target].isComplete;
     },
   },
   actions: {
@@ -285,6 +345,9 @@ export default createStore({
     },
     changeRequestState({commit}, data) {
       commit('changeRequestState', data);
+    },
+    taskStateSwitch({commit}, data) {
+      commit('taskStateSwitch', data);
     },
   },
   modules: {

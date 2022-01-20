@@ -69,7 +69,7 @@
 </template>
 
 <script>
-// import router from '../router';
+import router from '../router';
 import {mapActions} from 'vuex';
 export default {
   name: 'LoginForm',
@@ -120,7 +120,6 @@ export default {
         });
         const response = await res.json();
         if (response.error) {
-          console.log(response.error);
           this.changeRequestState({
             state: 'error',
             message: response.error.message,
@@ -135,7 +134,9 @@ export default {
           token: response.idToken,
           id: response.localId,
         });
-        // router.push('/Auth/dashboard');
+        setTimeout(() => {
+          router.push('/Auth/dashboard');
+        }, 2200);
       } catch (error) {
         this.changeRequestState({
           state: 'error',
@@ -156,7 +157,6 @@ export default {
         });
         const response = await res.json();
         if (response.error) {
-          console.log(response.error);
           this.changeRequestState({
             state: 'error',
             message: response.error.message,
