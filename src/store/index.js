@@ -77,44 +77,7 @@ export default createStore({
     userToken: null,
     userLocalId: null,
     requestState: null,
-    toDoList: [
-      {
-        text: 'Este es un ejemplo 1',
-        isImportant: false,
-        isComplete: true,
-        id: nanoid(),
-      },
-      {
-        text: 'Este es un ejemplo 2',
-        isImportant: false,
-        isComplete: false,
-        id: nanoid(),
-      },
-      {
-        text: 'Este es un ejemplo importante',
-        isImportant: true,
-        isComplete: false,
-        id: nanoid(),
-      },
-      {
-        text: 'Este tambien importa',
-        isImportant: true,
-        isComplete: true,
-        id: nanoid(),
-      },
-      {
-        text: 'Este es un ejemplo 3',
-        isImportant: false,
-        isComplete: false,
-        id: nanoid(),
-      },
-      {
-        text: 'y este...',
-        isImportant: true,
-        isComplete: false,
-        id: nanoid(),
-      },
-    ],
+    toDoList: [],
   },
   getters: {
     cartLength(state) {
@@ -237,6 +200,14 @@ export default createStore({
       });
       state.toDoList[target].isComplete = !state.toDoList[target].isComplete;
     },
+    newTask(state, payload) {
+      const task = {
+        ...payload,
+        isComplete: false,
+        id: nanoid(),
+      };
+      state.toDoList.push(task);
+    },
   },
   actions: {
     addNew({commit}, product) {
@@ -348,6 +319,9 @@ export default createStore({
     },
     taskStateSwitch({commit}, data) {
       commit('taskStateSwitch', data);
+    },
+    newTask({commit}, data) {
+      commit('newTask', data);
     },
   },
   modules: {

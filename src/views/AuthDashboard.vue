@@ -1,6 +1,8 @@
 <template>
-  <section class="w-full flex justify-around items-center gap-2">
+  <section class="w-full flex-col md:flex-row flex justify-around items-center
+  gap-2 py-7">
     <ToDoList/>
+    <TaskMaker/>
   </section>
 </template>
 
