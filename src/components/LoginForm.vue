@@ -136,6 +136,7 @@ export default {
         });
         setTimeout(() => {
           router.push('/Auth/dashboard');
+          this.changeRequestState(null);
         }, 2200);
       } catch (error) {
         this.changeRequestState({
@@ -171,6 +172,9 @@ export default {
           token: response.idToken,
           id: response.localId,
         });
+        setTimeout(() => {
+          this.changeRequestState(null);
+        }, 3000);
         // router.push('/Auth/dashboard');
       } catch (error) {
         this.changeRequestState({

@@ -51,7 +51,7 @@ export default {
     },
     start() {
       this.startPractice = !this.startPractice;
-      router.push('/Auth/dashboard'); // cambiar a login cuando termines pruebas
+      router.push('/Auth/login'); // cambiar a login cuando termines pruebas
     },
   },
 };
