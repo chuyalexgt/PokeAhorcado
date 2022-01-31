@@ -22,6 +22,7 @@
 
 <script>
 import {mapActions} from 'vuex';
+import {nanoid} from 'nanoid';
 export default {
   name: 'TaskMaker',
   created() {},
@@ -29,7 +30,7 @@ export default {
     return {
       task: {
         text: '',
-        isImportant: '',
+        isImportant: false,
       },
       isEmpty: false,
     };
@@ -40,7 +41,7 @@ export default {
     addNewTask() {
       if (this.task.text !== '') {
         setTimeout(() => {
-          this.newTask(this.task);
+          this.newTask({...this.task, id: nanoid(), isComplete: false});
           this.task = {
             text: '',
             isImportant: '',

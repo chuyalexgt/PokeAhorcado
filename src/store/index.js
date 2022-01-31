@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
 import {createStore} from 'vuex';
 import {nanoid} from 'nanoid';
@@ -74,8 +75,8 @@ export default createStore({
     formRegister: [],
     action: 'create',
     // STATE DE PRACTICA AUTENTICACION //////////////////////////
-    userToken: null,
-    userLocalId: null,
+    idToken: null,
+    localId: null,
     requestState: null,
     toDoList: [],
   },
@@ -184,11 +185,11 @@ export default createStore({
       state.formRegister = payload;
     },
     // MUTATIONS DE PRACTICA AUTENTICACION //////////////////////////
-    saveUserToken(state, payload) {
-      state.userToken = payload;
+    saveIdToken(state, payload) {
+      state.idToken = payload;
     },
-    saveUserLocalId(state, payload) {
-      state.userLocalId = payload;
+    saveLocalId(state, payload) {
+      state.localId = payload;
     },
     changeRequestState(state, payload) {
       state.requestState = payload;
@@ -201,12 +202,18 @@ export default createStore({
       state.toDoList[target].isComplete = !state.toDoList[target].isComplete;
     },
     newTask(state, payload) {
-      const task = {
-        ...payload,
-        isComplete: false,
-        id: nanoid(),
-      };
+      const task = payload;
       state.toDoList.push(task);
+    },
+    loadUserTasks(state, payload) {
+      state.toDoList = payload;
+    },
+    deleteTask(state, id) {
+      let target;
+      state.toDoList.forEach((el, index)=>{
+        (el.id === id) && (target = index);
+      });
+      state.toDoList.splice(target, 1);
     },
   },
   actions: {
@@ -311,17 +318,58 @@ export default createStore({
     },
     // ACTIONS DE PRACTICA AUTENTICACION //////////////////////////
     saveUserKeys({commit}, data) {
-      commit('saveUserToken', data.token);
-      commit('saveUserLocalId', data.id);
+      commit('saveIdToken', data.token);
+      commit('saveLocalId', data.id);
     },
     changeRequestState({commit}, data) {
       commit('changeRequestState', data);
     },
-    taskStateSwitch({commit}, data) {
-      commit('taskStateSwitch', data);
+    async taskStateSwitch({commit, state}, id) {
+      commit('taskStateSwitch', id);
+      let target;
+      state.toDoList.forEach((el, index)=>{
+        (el.id === id) && (target = index);
+      });
+      await fetch(`https://vue3-guide-default-rtdb.firebaseio.com/tareas/${state.localId}/${id}.json?auth=${state.idToken}`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(state.toDoList[target]),
+          });
     },
-    newTask({commit}, data) {
-      commit('newTask', data);
+    async newTask({commit, state}, task) {
+      commit('newTask', task);
+      await fetch(`https://vue3-guide-default-rtdb.firebaseio.com/tareas/${state.localId}/${task.id}.json?auth=${state.idToken}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(task),
+          });
+    },
+    async loadUserTasks({commit, state}) {
+      try {
+        const res = await fetch(`https://vue3-guide-default-rtdb.firebaseio.com/tareas/${state.localId}.json?auth=${state.idToken}`);
+        const response = await res.json();
+        // console.log(Object.values(response));
+        commit('loadUserTasks', Object.values(response));
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteTask({commit, state}, id) {
+      try {
+        commit('deleteTask', id);
+        await fetch(`https://vue3-guide-default-rtdb.firebaseio.com/tareas/${state.localId}/${id}.json?auth=${state.idToken}`,
+            {
+              method: 'DELETE',
+            });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   modules: {

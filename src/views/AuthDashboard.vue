@@ -7,14 +7,19 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 export default {
   name: 'AuthDashboard',
-  created() {},
+  created() {
+    this.loadUserTasks();
+  },
   data() {
     return {};
   },
   props: {},
-  methods: {},
+  methods: {
+    ...mapActions(['loadUserTasks']),
+  },
 
 };
 </script>
