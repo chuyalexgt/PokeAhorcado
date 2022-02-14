@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 <template>
   <section class="w-full bg-gray-400/50 z-50 absolute top-0 left-0
   before:blur-lg h-full flex justify-center items-center rounded-[40px]"

@@ -105,13 +105,17 @@ export default createStore({
       const completeTasks = [];
       const completeImportantTasks = [];
       state.toDoList.forEach((el)=>{
-        // el.isImportant ? importantList.push(el) : regularList.push(el);
         (el.isImportant & !el.isComplete) && importantList.push(el);
         (!el.isImportant & !el.isComplete) && regularList.push(el);
         (el.isImportant & el.isComplete) && completeImportantTasks.push(el);
         (!el.isImportant & el.isComplete) && completeTasks.push(el);
       });
       return importantList.concat(regularList.concat(completeImportantTasks.concat(completeTasks)));
+    },
+    userKeysState(state) {
+      let keysState = true;
+      (state.idToken === null | state.localId === null) && (keysState = false); // si no contamos con las user keys negamos el ingreso
+      return keysState;
     },
   },
   mutations: {
@@ -320,6 +324,14 @@ export default createStore({
     saveUserKeys({commit}, data) {
       commit('saveIdToken', data.token);
       commit('saveLocalId', data.id);
+      localStorage.setItem('userKeys', JSON.stringify(data));
+    },
+    loadUserKeys({commit}) {
+      if (localStorage.getItem('userKeys')) {
+        const keys = JSON.parse(localStorage.getItem('userKeys'));
+        commit('saveIdToken', keys.token);
+        commit('saveLocalId', keys.id);
+      }
     },
     changeRequestState({commit}, data) {
       commit('changeRequestState', data);
@@ -354,8 +366,8 @@ export default createStore({
       try {
         const res = await fetch(`https://vue3-guide-default-rtdb.firebaseio.com/tareas/${state.localId}.json?auth=${state.idToken}`);
         const response = await res.json();
-        // console.log(Object.values(response));
-        commit('loadUserTasks', Object.values(response));
+        console.log(response);
+        (response !== null | !!response?.error) && commit('loadUserTasks', Object.values(response));
       } catch (error) {
         console.log(error);
       }

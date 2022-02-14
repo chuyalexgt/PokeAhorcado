@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex';
 import router from '../router';
 export default {
   name: 'AuthView',
@@ -38,6 +39,7 @@ export default {
       top: 0,
       behavior: 'smooth',
     });
+    this.loadUserKeys();
   },
   data() {
     return {
@@ -45,13 +47,19 @@ export default {
     };
   },
   props: {},
+  computed: {
+    ...mapGetters(['userKeysState']),
+  },
   methods: {
+    ...mapActions(['loadUserKeys']),
     toHome() {
       router.push('/');
     },
     start() {
       this.startPractice = !this.startPractice;
-      router.push('/Auth/login'); // cambiar a login cuando termines pruebas
+      (this.userKeysState) ?
+      router.push('/Auth/dashboard') :
+      router.push('/Auth/login');
     },
   },
 };
